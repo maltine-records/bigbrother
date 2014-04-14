@@ -1,0 +1,12 @@
+mongodb:
+    host: "localhost"
+    db: "beacon_test"
+http:
+    port: 3000
+cookie:
+    secret: "hogehoge"
+sessionRedis:
+    db: 1
+    secret: "hogehoge"
+    prefix: "beacon-session-test:"
+twitter:
