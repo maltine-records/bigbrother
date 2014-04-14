@@ -12,9 +12,13 @@ mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
 {Beacon} = require "./models/beacon"
 
 app = express()
+#app.use express.static __dirname+"/public"
+app.set "views", __dirname+"/views"
+app.set "view engine", "jade"
 
 app.get "/", (req, res) ->
-    res.send "fuck maltine"
+    Beacon.find {}, (err, beacons) ->
+        res.render "index", {beacons:beacons}
 
 ### Beacon ###
 
