@@ -1,7 +1,7 @@
 bigbrother
 ==========
 
-# setup
+## setup
 
 npm install coffee-script -g
 
@@ -10,8 +10,8 @@ npm install mocha -g
 npm install
 
 
-# run
+## run
 npm start
 
-# test
+## test
 npm test
