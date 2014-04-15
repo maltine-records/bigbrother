@@ -3,7 +3,9 @@ console.log "load config", JSON.stringify config, "\n"
 
 http = require "http"
 express = require "express"
+bodyParser = require "body-parser"
 socketio = require "socket.io"
+
 
 mongoose = require "mongoose"
 mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
@@ -13,6 +15,7 @@ mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
 
 app = express()
 #app.use express.static __dirname+"/public"
+app.use bodyParser()
 app.set "views", __dirname+"/views"
 app.set "view engine", "jade"
 
@@ -31,9 +34,10 @@ app.get "/beacon", (req, res) ->
 # POST /beacon
 # ビーコンを新規作成する
 app.post "/beacon", (req, res) ->
+    console.log "/beacon", req.json
+    console.log "/beacon", req.body
     b = new Beacon
         uuid: req.body.uuid
-        name: req.body.name
     b.save ->
         res.send "succeed"
 
