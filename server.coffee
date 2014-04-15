@@ -20,7 +20,7 @@ app.set "views", __dirname+"/views"
 app.set "view engine", "jade"
 
 app.get "/", (req, res) ->
-    Beacon.find {}, (err, beacons) ->
+    Beacon.find({}).sort({uuid:1}).exec (err, beacons) ->
         res.render "index", {beacons:beacons}
 
 ### Beacon ###
