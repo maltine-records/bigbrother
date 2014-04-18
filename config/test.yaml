@@ -9,4 +9,3 @@ sessionRedis:
     db: 1
     secret: "hogehoge"
     prefix: "beacon-session-test:"
-twitter:

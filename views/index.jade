@@ -10,6 +10,7 @@ html(lang='utf-8')
             ul.beacon
                 - for (var i=0;i<beacons.length;++i) {
                     li
-                        a(href="/beacon/#{beacons[i].uuid/html")
-                            #{beacons[i].uuid}
+                        a(href!="/beacon/#{beacons[i].uuid}/html")
+                            span #{beacons[i].uuid} : 
+                            span #{beacons[i].name}
                 -}

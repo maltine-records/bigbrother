@@ -1,0 +1,5 @@
+mongodb:
+    host: "localhost"
+    db: "beacon_test"
+http:
+    port: 3001
