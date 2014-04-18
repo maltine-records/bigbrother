@@ -104,16 +104,17 @@ app.get "/user", (req, res) ->
 app.post "/user", (req, res) ->
     data = req.body
     if not data.uuid?
+        console.log "uuid not found", data
         res.send "failed, uuid is required", 401
     User.findOne {uuid:data.uuid}, (err, user) ->
         if user?
             user.update data, ->
-                res.send "succeed"
+                res.send {result:"succeed"}
         else
             user = new User({uuid:data.uuid})
             user.save ->
                 user.update data, ->
-                    res.send "succeed"
+                    res.send {result:"succeed"}
 
 module.exports = app
 if not module.parent
