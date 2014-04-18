@@ -28,13 +28,12 @@ app.get "/", (req, res) ->
 # GET /beacon
 # ビーコンの一覧を取得する
 app.get "/beacon", (req, res) ->
-    Beacon.find {}, (err, beacons) ->
-        res.send {beacons:beacons}
+    Beacon.find {}, (err, beacons) =>
+        res.send beacons
 
 # POST /beacon
-# ビーコンを新規作成する
+# ビーコンを新規作成または更新する
 app.post "/beacon", (req, res) ->
-    console.log "/beacon", req.json
     console.log "/beacon", req.body
     b = new Beacon
         uuid: req.body.uuid
@@ -54,13 +53,40 @@ app.get "/beacon/:uuid", (req, res) ->
         else
             res.send "beacon not found", 401
 
+app.get "/beacon/:uuid/html", (req, res) ->
+    Beacon.findOne {uuid:req.params.uuid}, (err, beacon) ->
+        if beacon?
+            beacon.getUsers (users) ->
+            res.render "beacon", {beacon:beacon}
+        else
+            res.send "beacon not found", 401
+
+app.post "/beacon/:uuid/html", (req, res) ->
+    console.log req.body
+    Beacon.findOne {uuid:req.params.uuid}, (err, beacon) ->
+        if beacon?
+            beacon.name = req.body.name
+            beacon.lat = req.body.lat
+            beacon.lon = req.body.lon
+            beacon.save ->
+                res.render "beacon", {beacon:beacon}
+        else
+            res.send "beacon not found", 401
+
 ### User ###
 
 # GET /user
 # userの一覧を取得する
 app.get "/user", (req, res) ->
+    resp = {}
     User.find({}).populate("beacon").exec (err, users)->
-        res.send {users:users}
+        for user in users
+            if user.beacon?
+                if resp[user.beacon.uuid]?
+                    resp[user.beacon.uuid].append user.toJSON()
+                else
+                    resp[user.beacon.uuid] = [user.toJSON()]
+        res.send resp
 
 # POST /user
 # userのプロパティを更新する
@@ -72,7 +98,7 @@ app.get "/user", (req, res) ->
 app.post "/user", (req, res) ->
     data = req.body
     if not data.uuid?
-        res.send "failed", 401
+        res.send "failed, uuid is required", 401
     User.findOne {uuid:data.uuid}, (err, user) ->
         if user?
             user.update data, ->

@@ -1,0 +1,33 @@
+doctype html5
+html(lang='utf-8')
+    head
+        title bigbrother /beacon
+    body
+        h1 bigbrother /beacon
+
+        form.beacon(method="POST",
+            action="/beacon/#{beacon.uuid}/html")
+            h2 uuid: #{beacon.uuid}
+            div
+                label name:
+                input(
+                    type="text",
+                    name="name",
+                    value=beacon.name
+                    )
+            div
+                label lat:
+                input(
+                    type="text",
+                    name="lat",
+                    value=beacon.lat
+                    )
+            div
+                label lon:
+                input(
+                    type="text",
+                    name="lon",
+                    value=beacon.lon
+                    )
+
+            input(type="submit")

@@ -1,13 +1,15 @@
 doctype html5
 html(lang='utf-8')
     head
-        title bigbrother
+        title bigbrother /
     body
-        h1 bigbrother
+        h1 bigbrother /
 
         div.exists-beacon
             h3 current beacons
             ul.beacon
                 - for (var i=0;i<beacons.length;++i) {
-                    li!= beacons[i].uuid
+                    li
+                        a(href="/beacon/#{beacons[i].uuid/html")
+                            #{beacons[i].uuid}
                 -}

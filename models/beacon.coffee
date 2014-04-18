@@ -5,11 +5,15 @@ ObjectId = Schema.ObjectId
 beaconSchema = new Schema
     uuid: {type:String, index: {unique:true, dropDups:true}}
     name: String
+    lat: Number
+    lon: Number
 
 beaconSchema.set "toJSON",
     transform: (doc, ret, options)->
         uuid: ret.uuid
         name: ret.name
+        lat: ret.lat
+        lon: ret.lon
 
 beaconSchema.methods.getUsers = (done) ->
     User = mongoose.model('User')

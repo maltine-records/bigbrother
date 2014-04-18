@@ -15,4 +15,4 @@ Bleacon.on "discover", (bcon)->
                 .set('Content-Type', 'application/json')
                 .send({uuid:uuid})
                 .end (res)->
-                   console.log res
+                   console.log res.status
