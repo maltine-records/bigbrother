@@ -21,7 +21,7 @@ app.set "view engine", "jade"
 
 app.get "/", (req, res) ->
     Beacon.find({}).sort({uuid:1}).exec (err, beacons) ->
-        res.render "index", {beacons:beacons}
+        res.render "index", {beacons:beacons, pretty:true}
 
 ### Beacon ###
 
@@ -69,7 +69,7 @@ app.post "/beacon/:uuid/html", (req, res) ->
             beacon.lat = req.body.lat
             beacon.lon = req.body.lon
             beacon.save ->
-                res.render "beacon", {beacon:beacon}
+                res.redirect "/"
         else
             res.send "beacon not found", 401
 

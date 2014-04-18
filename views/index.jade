@@ -7,10 +7,43 @@ html(lang='utf-8')
 
         div.exists-beacon
             h3 current beacons
+            div#beacons-map(style="width:100%;height:350px;")
             ul.beacon
                 - for (var i=0;i<beacons.length;++i) {
                     li
                         a(href!="/beacon/#{beacons[i].uuid}/html")
                             span #{beacons[i].uuid} : 
-                            span #{beacons[i].name}
+                            span #{beacons[i].name},
+                            span #{beacons[i].lat},
+                            span #{beacons[i].lon},
                 -}
+
+        - list = []
+        - list.push("http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+        - list.push("http://maps.google.com/maps/api/js?sensor=true")
+        - list.push("//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min.js")
+        - list.push("//cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.9/gmaps.min.js")
+        each src in list
+            script(src=src, type='text/javascript')
+        script(type="text/coffeescript").
+            $(document).ready ->
+                map = new GMaps
+                  div: '#beacons-map'
+                  lat: 35.681445
+                  lng: 139.757992
+                  zoom: 11
+                $.get "/beacon", (res)->
+                    for beacon in res
+                        console.log beacon
+                        if beacon.lat? and beacon.lon?
+                            map.addMarker
+                                lat: beacon.lat,
+                                lng: beacon.lon,
+                                title: beacon.name,
+                                infoWindow:
+                                    content: "hoge"
+
+
+
+
+
