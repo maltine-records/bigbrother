@@ -38,7 +38,7 @@ app.post "/beacon", (req, res) ->
     b = new Beacon
         uuid: req.body.uuid
     b.save ->
-        res.send "succeed"
+        res.send {result:"succeed"}
 
 # GET /beacon/:uuid
 # 特定のビーコンの情報と、その近くにいるユーザーの一覧を取得する
@@ -51,7 +51,7 @@ app.get "/beacon/:uuid", (req, res) ->
                     beacon:beacon
                     users: users
         else
-            res.send "beacon not found", 401
+            res.send {result:"failed", reason:"beacon not found"}, 401
 
 app.get "/beacon/:uuid/html", (req, res) ->
     Beacon.findOne {uuid:req.params.uuid}, (err, beacon) ->
