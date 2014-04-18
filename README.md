@@ -67,7 +67,7 @@ npm test
 "uuid": "user-uuid",
 "screen_name": "unko"
 "icon_url": "http://oq.la/i",
-"beacon-uuid": "beacon-uuid",
+"beacon_uuid": "beacon-uuid",
 "proximity": 10,
 }
 ```
