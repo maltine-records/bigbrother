@@ -83,15 +83,15 @@ app.get "/user", (req, res) ->
         for user in users
             if user.beacon?
                 if resp[user.beacon.uuid]?
-                    console.log resp[user.beacon.uuid].users
                     resp[user.beacon.uuid]["users"].push user.toJSON()
                 else
-                    resp[user.beacon.uuid] = {}
-                    resp[user.beacon.uuid].name = user.beacon.name
-                    resp[user.beacon.uuid].lon = user.beacon.lon
-                    resp[user.beacon.uuid].lat = user.beacon.lat
-                    resp[user.beacon.uuid]["users"] = new Array()
-                    resp[user.beacon.uuid]["users"].push user.toJSON()
+                    if user.beacon.lon? and user.beacon.lat?
+                        resp[user.beacon.uuid] = {}
+                        resp[user.beacon.uuid].name = user.beacon.name
+                        resp[user.beacon.uuid].lon = user.beacon.lon
+                        resp[user.beacon.uuid].lat = user.beacon.lat
+                        resp[user.beacon.uuid]["users"] = new Array()
+                        resp[user.beacon.uuid]["users"].push user.toJSON()
         res.send resp
 
 # POST /user
