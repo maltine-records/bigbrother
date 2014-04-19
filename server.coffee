@@ -4,7 +4,8 @@ console.log "load config", JSON.stringify config, "\n"
 http = require "http"
 express = require "express"
 bodyParser = require "body-parser"
-socketio = require "socket.io"
+logger = require "morgan"
+#socketio = require "socket.io"
 
 
 mongoose = require "mongoose"
@@ -16,6 +17,7 @@ mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
 app = express()
 #app.use express.static __dirname+"/public"
 app.use bodyParser()
+app.use logger("dev")
 app.set "views", __dirname+"/views"
 app.set "view engine", "jade"
 
@@ -105,7 +107,7 @@ app.post "/user", (req, res) ->
     data = req.body
     if not data.uuid?
         console.log "uuid not found", data
-        res.send "failed, uuid is required", 401
+        res.send {result:"failed", reason:"uuid is required"}, 401
     User.findOne {uuid:data.uuid}, (err, user) ->
         if user?
             user.update data, ->
