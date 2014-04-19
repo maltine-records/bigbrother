@@ -100,9 +100,6 @@ app.get "/user", (req, res) ->
 # userのプロパティを更新する
 # 存在しなければ作成する
 # beaconもuuidにあうものが存在しなければ作成する
-# { uuid, screen_name, icon_url, 
-#   soku
-#   beacon_uuid, proximity}
 app.post "/user", (req, res) ->
     data = req.body
     if not data.uuid?

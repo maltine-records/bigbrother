@@ -6,6 +6,7 @@ userSchema = new Schema
     uuid: {type:String, index: {unique:true, dropDups:true}}
     screen_name: String
     icon_url: String
+    followers_count: Number
     soku: Number
     proximity: Number
     beacon: {type: Schema.Types.ObjectId, ref: "Beacon"}
@@ -15,6 +16,7 @@ userSchema.set "toJSON",
         uuid: ret.uuid
         screen_name: ret.screen_name
         icon_url: ret.icon_url
+        followers_count: ret.followers_count
         soku: ret.soku
         proximity: ret.proximity
         beacon_uuid: ret.beacon.uuid
@@ -38,7 +40,7 @@ userSchema.methods.setBeaconByUUID = (uuid, done) ->
                 @save => done(@)
 
 userSchema.methods.update = (data, done) ->
-    atts = ["screen_name", "icon_url", "soku", "proximity"]
+    atts = ["screen_name", "icon_url", "followers_count", "soku", "proximity"]
     for attr in atts
         if data[attr]?
             console.log attr, data[attr]

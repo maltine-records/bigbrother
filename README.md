@@ -59,14 +59,16 @@ npm test
     - uuid          : required. vender uuid of client device
     - screen_name   : optional. ピンに表示される名前
     - icon_url      : optional. ピンに表示される画像
+    - followers_count: optional. twitterフォロワー数
     - beacon_uuid   : optional. 一番近いビーコンのuuid
     - proximity     : optional. 一番近いビーコンまでの距離
 
 ```
 {
-"uuid": "user-uuid",
+"uuid": "user-ios-uuid",
 "screen_name": "unko"
 "icon_url": "http://oq.la/i",
+"followers_count": 500
 "beacon_uuid": "beacon-uuid",
 "proximity": 10,
 }
