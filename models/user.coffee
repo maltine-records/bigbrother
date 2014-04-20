@@ -28,13 +28,14 @@ userSchema.statics.getsByBeacon = (beacon, done) ->
 userSchema.methods.setBeaconByUUID = (uuid, done) ->
     Beacon = mongoose.model('Beacon')
     Beacon.findOne {uuid:uuid}, (err, beacon)=>
+        time = new Date()
         if beacon?
-            console.log "exists beacon", beacon
+            console.log "#{time}, #{@screen_name}, #{beacon.uuid}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
             @beacon = beacon
             @save => done(@)
         else
             beacon = new Beacon(uuid:uuid)
-            console.log "new beacon", beacon
+            console.log "#{time}, #{@screen_name}, #{beacon.uuid}"
             beacon.save =>
                 @beacon = beacon
                 @save => done(@)

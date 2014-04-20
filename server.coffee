@@ -17,7 +17,7 @@ mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
 app = express()
 #app.use express.static __dirname+"/public"
 app.use bodyParser()
-app.use logger("dev")
+#app.use logger("dev")
 app.set "views", __dirname+"/views"
 app.set "view engine", "jade"
 
