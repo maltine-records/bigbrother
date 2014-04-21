@@ -68,6 +68,7 @@ app.post "/beacon/:uuid/html", (req, res) ->
     Beacon.findOne {uuid:req.params.uuid}, (err, beacon) ->
         if beacon?
             beacon.name = req.body.name
+            beacon.room = req.body.room
             beacon.lat = req.body.lat
             beacon.lon = req.body.lon
             beacon.save ->

@@ -9,7 +9,14 @@ html(lang='utf-8')
             action="/beacon/#{beacon.uuid}/html")
             h2 uuid: #{beacon.uuid}
             div
-                label name:
+                label 設置部屋名:
+                input(
+                    type="text",
+                    name="room",
+                    value=beacon.room
+                    )
+            div
+                label 地図場所名:
                 input(
                     type="text",
                     name="name",

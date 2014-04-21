@@ -13,6 +13,7 @@ html(lang='utf-8')
                     li
                         a(href!="/beacon/#{beacons[i].uuid}/html")
                             span #{beacons[i].uuid} : 
+                            span #{beacons[i].room},
                             span #{beacons[i].name},
                             span #{beacons[i].lat},
                             span #{beacons[i].lon},
@@ -35,7 +36,7 @@ html(lang='utf-8')
                 $.get "/beacon", (res)->
                     for beacon in res
                         beacon.createHTML = ->
-                            "<div><a href='beacon/"+beacon.uuid+"/html'>"+beacon.name+" <br /> "+beacon.uuid+"</a></div>"
+                            "<div><a href='beacon/"+beacon.uuid+"/html'>"+beacon.room+" : "+beacon.name+" <br /> "+beacon.uuid+"</a></div>"
                         if beacon.lat? and beacon.lon?
                             map.addMarker
                                 lat: beacon.lat,

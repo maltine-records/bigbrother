@@ -30,7 +30,7 @@ userSchema.methods.setBeaconByUUID = (uuid, done) ->
     Beacon.findOne {uuid:uuid}, (err, beacon)=>
         time = new Date()
         if beacon?
-            console.log "#{time}, #{@screen_name}, #{beacon.uuid}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
+            console.log "#{time}, #{@screen_name}, #{beacon.room}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
             @beacon = beacon
             @save => done(@)
         else
