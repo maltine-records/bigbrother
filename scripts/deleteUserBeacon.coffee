@@ -1,4 +1,5 @@
 config = require "config"
+console.log config
 
 mongoose = require "mongoose"
 mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"

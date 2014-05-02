@@ -91,6 +91,7 @@ app.get "/user", (req, res) ->
                     if user.beacon.lon? and user.beacon.lat?
                         resp[user.beacon.uuid] = {}
                         resp[user.beacon.uuid].name = user.beacon.name
+                        resp[user.beacon.uuid].room = user.beacon.room
                         resp[user.beacon.uuid].lon = user.beacon.lon
                         resp[user.beacon.uuid].lat = user.beacon.lat
                         resp[user.beacon.uuid]["users"] = new Array()

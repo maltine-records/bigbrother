@@ -2,6 +2,19 @@ doctype html5
 html(lang='utf-8')
     head
         title bigbrother /
+        style(type="text/css").
+            #overlay {
+                height: 250px;
+                width: 350px;
+                border: 1px solid black;
+            }
+            #overlay img {
+                height: 100%;
+                width: 100%;
+                opacity: 0.5;
+                filter: alpha(opacity=50);
+                -moz-opacity: 0.5;
+            }
     body
         h1 bigbrother /
 
@@ -33,6 +46,14 @@ html(lang='utf-8')
                   lat: 35.681445
                   lng: 139.757992
                   zoom: 11
+                map_img = "https://trello-attachments.s3.amazonaws.com/534d248a7e5f580d4f1ee229/5353b932988eaf03681685b5/1623x960/7164777f97f2ac620a199faa8321ca2b/tokyo0505map_big.png"
+                map_content = "<div id='overlay'><img src='"+map_img+"' /></div>"
+                map.drawOverlay
+                    lat: 35.727523
+                    lng: 139.632645
+                    content: map_content
+                    verticalAlign: "bottom"
+                    horizontalAlign: "right"
                 $.get "/beacon", (res)->
                     for beacon in res
                         beacon.createHTML = ->
@@ -43,7 +64,6 @@ html(lang='utf-8')
                                 lng: beacon.lon,
                                 title: beacon.name,
                                 infoWindow:
-                                    #content: "<div>hoge</div>"
                                     content: beacon.createHTML()
 
 
