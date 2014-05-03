@@ -9,3 +9,8 @@ sessionRedis:
     db: 1
     secret: "hogehoge"
     prefix: "beacon-session-test:"
+twitter:
+    consumerKey: "NqGDNeeaniwZjC6HBxzcOLhr3"
+    consumerSecret: "57VIQSV4ODEl7SdPOVVs2U6548adZPfUabYlZyBzQjLKVBEx7c"
+    botToken: "2454668468-UbVuVnERyk3B6IM3y5eQenRlux8EnmRc9oylp2K"
+    botTokenSecret: "6vxly3zlWXjGTKVjOy6wSdEL8NMWrevK9uA5eaFDQeKDB"

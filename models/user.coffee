@@ -1,6 +1,7 @@
 mongoose = require "mongoose"
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
+{TwitterClient} = require "../twitterClient"
 
 userSchema = new Schema
     uuid: {type:String, index: {unique:true, dropDups:true}}
@@ -31,6 +32,8 @@ userSchema.methods.setBeaconByUUID = (uuid, done) ->
         time = new Date()
         if beacon?
             console.log "#{time}, #{@screen_name}, #{beacon.room}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
+            twCli = new TwitterClient
+            twCli.roomTweet(@screen_name, beacon)
             @beacon = beacon
             @save => done(@)
         else
