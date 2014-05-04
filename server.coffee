@@ -22,8 +22,11 @@ app.set "views", __dirname+"/views"
 app.set "view engine", "jade"
 
 app.get "/", (req, res) ->
+    res.render "index", {pretty:true}
+
+app.get "/admin", (req, res) ->
     Beacon.find({}).sort({uuid:1}).exec (err, beacons) ->
-        res.render "index", {beacons:beacons, pretty:true}
+        res.render "admin", {beacons:beacons, pretty:true}
 
 ### Beacon ###
 

@@ -2,7 +2,7 @@ mongodb:
     host: "localhost"
     db: "beacon_test"
 http:
-    port: 3000
+    port: 3331
 cookie:
     secret: "hogehoge"
 sessionRedis:

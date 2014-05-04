@@ -1,0 +1,72 @@
+doctype html5
+html(lang='utf-8')
+    head
+        title bigbrother /
+        style(type="text/css").
+            #overlay {
+                height: 250px;
+                width: 350px;
+                border: 1px solid black;
+            }
+            #overlay img {
+                height: 100%;
+                width: 100%;
+                opacity: 0.5;
+                filter: alpha(opacity=50);
+                -moz-opacity: 0.5;
+            }
+    body
+        h1 bigbrother /
+
+        div.exists-beacon
+            h3 current beacons
+            div#beacons-map(style="width:100%;height:450px;")
+            ul.beacon
+                - for (var i=0;i<beacons.length;++i) {
+                    li
+                        a(href!="/beacon/#{beacons[i].uuid}/html")
+                            span #{beacons[i].uuid} : 
+                            span #{beacons[i].room},
+                            span #{beacons[i].name},
+                            span #{beacons[i].lat},
+                            span #{beacons[i].lon},
+                -}
+
+        - list = []
+        - list.push("http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+        - list.push("http://maps.google.com/maps/api/js?sensor=true")
+        - list.push("//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min.js")
+        - list.push("//cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.9/gmaps.min.js")
+        each src in list
+            script(src=src, type='text/javascript')
+        script(type="text/coffeescript").
+            $(document).ready ->
+                map = new GMaps
+                  div: '#beacons-map'
+                  lat: 35.681445
+                  lng: 139.757992
+                  zoom: 11
+                map_img = "https://trello-attachments.s3.amazonaws.com/534d248a7e5f580d4f1ee229/5353b932988eaf03681685b5/1623x960/7164777f97f2ac620a199faa8321ca2b/tokyo0505map_big.png"
+                map_content = "<div id='overlay'><img src='"+map_img+"' /></div>"
+                map.drawOverlay
+                    lat: 35.727523
+                    lng: 139.632645
+                    content: map_content
+                    verticalAlign: "bottom"
+                    horizontalAlign: "right"
+                $.get "/beacon", (res)->
+                    for beacon in res
+                        beacon.createHTML = ->
+                            "<div><a href='beacon/"+beacon.uuid+"/html'>"+beacon.room+" : "+beacon.name+" <br /> "+beacon.uuid+"</a></div>"
+                        if beacon.lat? and beacon.lon?
+                            map.addMarker
+                                lat: beacon.lat,
+                                lng: beacon.lon,
+                                title: beacon.name,
+                                infoWindow:
+                                    content: beacon.createHTML()
+
+
+
+
+

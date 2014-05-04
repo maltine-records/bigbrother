@@ -1,0 +1,103 @@
+:coffeescript
+    showTile = ->
+        getFloorMapTile = (coord, zoom, ownerDocument) ->
+            div = ownerDocument.createElement('div')
+            div.style.backgroundColor = "rgba(0,0,0,0.3)"
+            div.style.width = @tileSize.width
+            div.style.height = @tileSize.height
+            return div
+        map.addOverlayMapType
+            index: 0
+            tileSize: new google.maps.Size(256, 256)
+            getTile: getFloorMapTile
+    $(()->
+        $("#title").bind "mouseover", ->
+            $("#explanation-markup").show()
+        $("#explanation-markup").bind "click", ->
+            $("#explanation-markup").hide()
+
+        map = new GMaps
+            div: '#beacons-map'
+            lat: 35.672370
+            lng: 139.736538
+            zoom: 13
+            mapType: "HYBRID"
+            disableDefaultUI: true
+        swBound = new google.maps.LatLng(35.603426, 139.632645)
+        neBound = new google.maps.LatLng(35.727523, 139.864241)
+        bounds = new google.maps.LatLngBounds(swBound, neBound)
+        map_img = "https://trello-attachments.s3.amazonaws.com/534d248a7e5f580d4f1ee229/5353b932988eaf03681685b5/1623x960/7164777f97f2ac620a199faa8321ca2b/tokyo0505map_big.png"
+        overlay = new FloorMapOverlay(bounds, map_img, map.map)
+
+        bacon_url = "http://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Made20bacon.png/120px-Made20bacon.png"
+        fetchBeacons = ->
+            $.get "/beacon", (res)->
+                for beacon in res
+                    beacon.createHTML = ->
+                        "<div><span class='beacon-name'>"+beacon.name+"</span><br /><span class='beacon-room'>"+beacon.room+"</span></div>"
+                    if beacon.lat? and beacon.lon?
+                        map.addMarker
+                            lat: beacon.lat
+                            lng: beacon.lon
+                            icon: bacon_url
+                            title: beacon.name
+                            infoWindow:
+                                content: beacon.createHTML()
+                            zIndex: 10
+        fetchBeacons()
+        window.userMarkers = []
+        fetchUsers = ->
+            for m in window.userMarkers
+                map.removeMarker(m)
+            $.get "/user", (res) ->
+                for key, beacon of res
+                    for user in beacon.users
+                        randomA = 0.0001*Math.floor(Math.random()*100)
+                        randomB = 0.0001*Math.floor(Math.random()*100)
+                        marker = map.addMarker
+                            lat: beacon.lat+randomA
+                            lng: beacon.lon+randomB
+                            icon: user.icon_url
+                            title: user.screen_name
+                            infoWindow:
+                                content: "<div>#{user.screen_name}</div>"
+                            zIndex: 1000
+                        window.userMarkers.push marker
+        fetchUsers()
+        setInterval ->
+            fetchUsers()
+        , 10000
+    )
+    class FloorMapOverlay extends google.maps.OverlayView
+        constructor: (bounds, image, map)->
+            @bounds_ = bounds
+            @image_ = image
+            @map_ = map
+            @div_ = null
+            @setMap(map)
+        onAdd: ->
+            div = document.createElement('div')
+            div.style.border = "none"
+            div.style.borderWidth = "0px"
+            div.style.position = "absolute"
+            img = document.createElement("img")
+            img.src = @image_
+            img.style.width = "100%"
+            img.style.height = "100%"
+            img.style.opacity = "0.5"
+            div.appendChild(img)
+            @div_ = div
+            panes = @getPanes()
+            panes.overlayLayer.appendChild(div)
+        onRemove: ->
+            @div_.parentNode.removeChild(@div_)
+            @div_ = null
+        draw: ->
+            overlayProjection = @getProjection()
+            sw = overlayProjection.fromLatLngToDivPixel(@bounds_.getSouthWest())
+            ne = overlayProjection.fromLatLngToDivPixel(@bounds_.getNorthEast())
+            div = @div_
+            div.style.left = sw.x + 'px'
+            div.style.top = ne.y + 'px'
+            div.style.width = (ne.x - sw.x) + 'px'
+            div.style.height = (sw.y - ne.y) + 'px'
