@@ -31,23 +31,26 @@ userSchema.methods.setBeaconByUUID = (uuid, done) ->
     Beacon.findOne {uuid:uuid}, (err, beacon)=>
         time = new Date()
         if beacon?
-            console.log "#{time}, #{@screen_name}, #{beacon.room}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
-            twCli = new TwitterClient
-            twCli.roomTweet(@screen_name, beacon)
-            @beacon = beacon
-            @save => done(@)
-        else
-            beacon = new Beacon(uuid:uuid)
-            console.log "#{time}, #{@screen_name}, #{beacon.uuid}"
-            beacon.save =>
+            if true#@proximity > 0
+                console.log "#{time}, #{@screen_name}, #{beacon.room}, #{beacon.name}, #{beacon.lat}, #{beacon.lon}"
                 @beacon = beacon
                 @save => done(@)
+            if @proximity > 0
+                console.log "tweet"
+                twCli = new TwitterClient
+                twCli.roomTweet(@screen_name, beacon)
+        else
+            if true#@proximity > 0
+                beacon = new Beacon(uuid:uuid)
+                console.log "#{time}, #{@screen_name}, #{beacon.uuid}"
+                beacon.save =>
+                    @beacon = beacon
+                    @save => done(@)
 
 userSchema.methods.update = (data, done) ->
     atts = ["screen_name", "icon_url", "followers_count", "soku", "proximity"]
     for attr in atts
         if data[attr]?
-            console.log attr, data[attr]
             @[attr] = data[attr]
     if data.beacon_uuid?
         @setBeaconByUUID data.beacon_uuid, (res)->

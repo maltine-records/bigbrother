@@ -23,18 +23,40 @@
             zoom: 13
             mapType: "HYBRID"
             disableDefaultUI: true
+            zoomControl: true
+            zoomControlOptions:
+                style: google.maps.ZoomControlStyle.LARGE
+                position: google.maps.ControlPosition.LEFT_TOP
+
+        google.maps.event.addListener map.map, 'maptypeid_changed', ->
+            console.log "hoge"
+            @setOptions
+                styles:[{
+                    featureType: "poi",
+                    elementType: "all",
+                    stylers: [{visibility:"off"}]
+                }]
+        google.maps.event.trigger(map.map,'maptypeid_changed')
+
         swBound = new google.maps.LatLng(35.603426, 139.632645)
         neBound = new google.maps.LatLng(35.727523, 139.864241)
         bounds = new google.maps.LatLngBounds(swBound, neBound)
-        map_img = "https://trello-attachments.s3.amazonaws.com/534d248a7e5f580d4f1ee229/5353b932988eaf03681685b5/1623x960/7164777f97f2ac620a199faa8321ca2b/tokyo0505map_big.png"
+        map_img = "http://tokyo-bb.cs8.biz/tokyo0505map_big.png"
         overlay = new FloorMapOverlay(bounds, map_img, map.map)
 
-        bacon_url = "http://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Made20bacon.png/120px-Made20bacon.png"
+        bacon_url = "http://tokyo-bb.cs8.biz/bacon-60.png"
         fetchBeacons = ->
             $.get "/beacon", (res)->
                 for beacon in res
+                    beacon.hashtag = beacon.room+"_"+beacon.name
+                    beacon.twref = "https://twitter.com/search?q=%23"+beacon.hashtag
                     beacon.createHTML = ->
-                        "<div><span class='beacon-name'>"+beacon.name+"</span><br /><span class='beacon-room'>"+beacon.room+"</span></div>"
+                        tag = "<div class='callout'><a target='blank_' href='"+beacon.twref+"'>"
+                        tag = tag+"<span class='beacon-name'>"+beacon.name+"</span>"
+                        tag = tag+"<br /><span class='beacon-room'>"+beacon.room+"</span>"
+                        tag = tag+"</a>"
+                        tag = tag+"</div>"
+                        return tag
                     if beacon.lat? and beacon.lon?
                         map.addMarker
                             lat: beacon.lat
@@ -52,15 +74,20 @@
             $.get "/user", (res) ->
                 for key, beacon of res
                     for user in beacon.users
-                        randomA = 0.0001*Math.floor(Math.random()*100)
-                        randomB = 0.0001*Math.floor(Math.random()*100)
+                        randomA = 0.0002*Math.floor(Math.random()*100)
+                        randomB = 0.0002*Math.floor(Math.random()*100)
+                        content = "<div class='callout'>"
+                        content = content+"<span class='beacon-name'>"
+                        content = content+"<a target='blank_' href='https://twitter.com/#{user.screen_name}'>"
+                        content = content+user.screen_name
+                        content = content+"</a></span></div>"
                         marker = map.addMarker
                             lat: beacon.lat+randomA
                             lng: beacon.lon+randomB
                             icon: user.icon_url
                             title: user.screen_name
                             infoWindow:
-                                content: "<div>#{user.screen_name}</div>"
+                                content: content
                             zIndex: 1000
                         window.userMarkers.push marker
         fetchUsers()

@@ -15,7 +15,7 @@ mongoose.connect "mongodb://#{config.mongodb.host}/#{config.mongodb.db}"
 {Beacon} = require "./models/beacon"
 
 app = express()
-#app.use express.static __dirname+"/public"
+app.use express.static __dirname+"/public"
 app.use bodyParser()
 #app.use logger("dev")
 app.set "views", __dirname+"/views"
@@ -23,6 +23,9 @@ app.set "view engine", "jade"
 
 app.get "/", (req, res) ->
     res.render "index", {pretty:true}
+
+app.get "/app", (req, res) ->
+    res.render "app", {pretty:true}
 
 app.get "/admin", (req, res) ->
     Beacon.find({}).sort({uuid:1}).exec (err, beacons) ->

@@ -2,7 +2,7 @@ mongodb:
     host: "localhost"
     db: "beacon_test"
 http:
-    port: 3331
+    port: 3000
 cookie:
     secret: "hogehoge"
 sessionRedis:
@@ -10,7 +10,11 @@ sessionRedis:
     secret: "hogehoge"
     prefix: "beacon-session-test:"
 twitter:
-    consumerKey: "NqGDNeeaniwZjC6HBxzcOLhr3"
-    consumerSecret: "57VIQSV4ODEl7SdPOVVs2U6548adZPfUabYlZyBzQjLKVBEx7c"
-    botToken: "2454668468-UbVuVnERyk3B6IM3y5eQenRlux8EnmRc9oylp2K"
-    botTokenSecret: "6vxly3zlWXjGTKVjOy6wSdEL8NMWrevK9uA5eaFDQeKDB"
+    #consumerKey: "NqGDNeeaniwZjC6HBxzcOLhr3"
+    #consumerSecret: "57VIQSV4ODEl7SdPOVVs2U6548adZPfUabYlZyBzQjLKVBEx7c"
+    #botToken: "2454668468-UbVuVnERyk3B6IM3y5eQenRlux8EnmRc9oylp2K"
+    #botTokenSecret: "6vxly3zlWXjGTKVjOy6wSdEL8NMWrevK9uA5eaFDQeKDB"
+    consumerKey: "FbtIKVBXZmmI0rd0obX6z2scv"
+    consumerSecret: "HUH0gIMVBgZY1ieGEEKq5KWsZ105Cgp1RYaS8XnebKaIVO8iUB"
+    botToken: "2477976830-RPIwXzhYqimexCxa0op6p4HnYCt4xmXbhiyxVhA"
+    botTokenSecret: "m9DLshyNePPmqxQVYhJQAz349BNOPo360n7CZ3v0oIQyz"

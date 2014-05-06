@@ -10,8 +10,9 @@ class TwitterClient
             access_token_secret: config.twitter.botTokenSecret
         return @
     roomTweet: (screen_name, beacon) ->
-        text = "#{screen_name} は ##{beacon.room}_#{beacon.name} にいるぞ #tokyo0505"
-        @tweet(text)
+        if screen_name? and beacon?
+            text = "#{screen_name} は ##{beacon.room}_#{beacon.name} にいるぞ → http://tokyo-bb.cs8.biz/  #tokyo0505"
+            @tweet(text)
     tweet: (text, done) ->
         @twitter.updateStatus text, (data) =>
             if done?

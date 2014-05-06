@@ -1,0 +1,39 @@
+doctype html5
+html(lang='ja')
+    head
+        title tokyo big brother
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width; initial-scale=1.0; maximum-scale=1.0;")
+        style(type="text/css").
+            html,body,div {margin:0px;padding:0px;}
+            div.install {
+                width: 300px;
+                margin: 20px auto;
+                text-align: center;
+            }
+            img.install {
+                display: block;
+                width: 120px;
+                margin: 40px auto;
+            }
+            div.howto {
+                margin: 20px auto;
+            }
+            a.howto h1 {
+                text-align: center;
+            }
+            img#howto {
+                display: block;
+                width: 250px;
+                margin: 20px auto;
+            }
+
+    body
+        a.install(href="http://get.udid.io/?mail=tokyo0505@gmail.com")
+            img.install(src="/app_icon_b_120.png")
+            div.install
+                h1 Install App!!
+        div.howto
+            a.howto(href="#howto")
+                h1 How To
+            img#howto(src="/cap.gif")

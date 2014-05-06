@@ -1,7 +1,8 @@
 doctype html5
-html(lang='utf-8')
+html(lang='ja')
     head
-        title tokyo big brother
+        meta(charset="utf-8")
+        title Tokyo Big Brother
         style(type="text/css").
             html,body,div {margin:0px;padding:0px;}
             body {
@@ -15,10 +16,18 @@ html(lang='utf-8')
               width: 100%;
               height: 100%;
             }
+            .callout {
+                width: 115px;
+                height: 3.2em;
+            }
+            .callout a{
+                color: blue;
+                text-decoration:none;
+            }
             #title {
               position:absolute;
               top:0px;
-              left:0px;
+              right:0px;
               z-index:5000;
               font-size:60px;
               color:white;
@@ -39,19 +48,31 @@ html(lang='utf-8')
                 margin: 5% 10%;
                 padding: 5% 5% 0;
                 z-index:15000;
+                cursor:pointer;
             }
             .close {
-                font-size: 20px;
+                font-size: 30px;
                 float:right;
+            }
+            #buttons {
+                position:relative;
+                margin: 20px auto 0;
+                width:140px;
+                z-index:15000;
             }
 
     body
         div#title Tokyo Big Brother
         div#explanation-markup
             div.close
-                a(href="#") close
+                a(href="#") click to close
             include explanation
         div#beacons-map
+
+        div#buttons
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://tokyo-bb.cs8.biz/" data-via="tokyobigbrother" data-size="large" data-related="tokyobigbrother" data-hashtags="tokyo0505" data-lang="en">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
 
         - cdnjs = "//cdnjs.cloudflare.com/ajax/libs/"
         - list = []
